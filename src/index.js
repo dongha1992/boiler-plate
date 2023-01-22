@@ -1,6 +1,5 @@
-import "./index.css";
+import "./index.scss";
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("work");
 });
-
