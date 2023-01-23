@@ -12,7 +12,7 @@ const mode = process.env.NODE_ENV || 'development'
 
 module.exports = {
   mode,
-  devtool:'cheap-module-source-map',
+  devtool: 'cheap-module-source-map',
   entry: './src/index.ts',
   resolve: {
     extensions: ['.ts', '.js'],
@@ -34,7 +34,7 @@ module.exports = {
       {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
     ],
   },
