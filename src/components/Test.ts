@@ -1,13 +1,13 @@
 export default class Test {
-  resultView: HTMLDivElement
+  resultView: HTMLDivElement;
 
   constructor() {
-    const resultViewEl = document.querySelector('#search-result') as HTMLDivElement
-    this.resultView = resultViewEl
-    this.render('tet')
+    const resultViewEl = document.querySelector('#search-result') as HTMLDivElement;
+    this.resultView = resultViewEl;
+    this.render('tet');
   }
 
   render(arg: string) {
-    this.resultView.innerHTML = `<div>${arg}<div>`
+    this.resultView.innerHTML = `<div>${arg}<div>`;
   }
 }

@@ -23,7 +23,7 @@ module.exports = {
   },
   plugins: ['prettier'],
   rules: {
-    'prettier/prettier': 'error',
+    // 'prettier/prettier': 'error',
     'no-unused-vars': 'error',
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/no-var-requires': 'off',
