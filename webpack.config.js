@@ -5,15 +5,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const mode = process.env.NODE_ENV || 'development'
-
-// dev - cheap-module-source-map
-// prod - souce-map
+const isDev = process.env.NODE_ENV === 'development'
 
 module.exports = {
   mode,
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   entry: './src/index.ts',
   resolve: {
     extensions: ['.ts', '.js'],
@@ -48,19 +47,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       templateParameters: {
-        env: process.env.NODE_ENV === 'development' ? '(개발용)' : '',
+        env: isDev ? '개발' : '',
       },
-      minify:
-        process.env.NODE_ENV === 'production'
-          ? {
-              collapseWhitespace: true, // 빈칸 제거
-              removeComments: true, // 주석 제거
-            }
-          : false,
-      hash: process.env.NODE_ENV === 'production',
+      minify: !isDev
+        ? {
+            collapseWhitespace: true,
+            removeComments: true,
+          }
+        : false,
+      hash: !isDev,
     }),
     new CleanWebpackPlugin(),
-    ...(process.env.NODE_ENV === 'production' ? [new MiniCssExtractPlugin({ filename: `[name].css` })] : []),
+    ...(!isDev ? [new MiniCssExtractPlugin({ filename: `[name].css` })] : []),
     new ESLintPlugin({
       extensions: ['js', 'ts'],
       emitError: true,
@@ -70,21 +68,25 @@ module.exports = {
       useEslintrc: true,
       cache: true,
     }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'bundle-report.json',
+    }),
   ],
-
   optimization: {
-    minimizer:
-      mode === 'production'
-        ? [
-            new CssMinimizerPlugin(),
-            new TerserPlugin({
-              terserOptions: {
-                compress: {
-                  drop_console: true, // 콘솔 로그를 제거한다
-                },
+    minimizer: !isDev
+      ? [
+          new CssMinimizerPlugin(),
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true,
               },
-            }),
-          ]
-        : [],
+            },
+          }),
+        ]
+      : [],
   },
 }
