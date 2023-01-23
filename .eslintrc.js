@@ -1,4 +1,9 @@
 module.exports = {
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: "module"
+  },
   env: {
     browser: true,
     es6: true,
@@ -8,10 +13,6 @@ module.exports = {
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly"
-  },
-  parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: "module"
   },
   plugins: ["prettier"],
   rules: {

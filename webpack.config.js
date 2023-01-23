@@ -1,6 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const mode = process.env.NODE_ENV || "development";
 
@@ -11,6 +14,12 @@ module.exports = {
     path: path.resolve("./dist"),
     filename: "bundle.js"
   },
+  devServer: {
+    overlay: true,
+    stats: "errors-only",
+    proxy: {},
+    hot: true
+  },
   module: {
     rules: [
       {
@@ -20,7 +29,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader" 
+        loader: "babel-loader"
       }
     ]
   },
@@ -43,5 +52,20 @@ module.exports = {
     ...(process.env.NODE_ENV === "production"
       ? [new MiniCssExtractPlugin({ filename: `[name].css` })]
       : [])
-  ]
+  ],
+  optimization: {
+    minimizer:
+      mode === "production"
+        ? [
+            new OptimizeCSSAssetsPlugin(),
+            new TerserPlugin({
+              terserOptions: {
+                compress: {
+                  drop_console: true // 콘솔 로그를 제거한다
+                }
+              }
+            })
+          ]
+        : []
+  }
 };
