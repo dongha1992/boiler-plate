@@ -24,6 +24,9 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': 'error',
-    '@typescript-eslint/no-var-requires': 0,
+    'no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 }

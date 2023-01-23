@@ -4,7 +4,7 @@ export default class Test {
   constructor() {
     const resultViewEl = document.querySelector('#search-result') as HTMLDivElement
     this.resultView = resultViewEl
-    this.render()
+    this.render('tet')
   }
 
   render(arg: string) {

@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 const mode = process.env.NODE_ENV || 'development'
 
@@ -36,6 +37,11 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   plugins: [
@@ -55,7 +61,17 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     ...(process.env.NODE_ENV === 'production' ? [new MiniCssExtractPlugin({ filename: `[name].css` })] : []),
+    new ESLintPlugin({
+      extensions: ['js', 'ts'],
+      emitError: true,
+      emitWarning: true,
+      failOnError: true,
+      failOnWarning: true,
+      useEslintrc: true,
+      cache: true,
+    }),
   ],
+
   optimization: {
     minimizer:
       mode === 'production'
