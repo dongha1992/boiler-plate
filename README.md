@@ -4,7 +4,7 @@
 
 아래의 스택을 사용함
 - Webpack5
-- Babal loader
+- Babel loader
 - Sass loader, 
 - Typescript
 - husky
