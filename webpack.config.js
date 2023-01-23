@@ -9,7 +9,10 @@ const mode = process.env.NODE_ENV || "development";
 
 module.exports = {
   mode,
-  entry: "./src/index.js",
+  entry: "./src/index.ts",
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
   output: {
     path: path.resolve("./dist"),
     filename: "bundle.js"
@@ -27,7 +30,7 @@ module.exports = {
         use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
-        test: /\.js$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         loader: "babel-loader"
       }
